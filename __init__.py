@@ -1,5 +1,9 @@
-__all__ = ["data_loader_template", "model_template", "trainer_template"]
+__all__ = ["DataLoaderTemplate",
+           "ModelTemplate",
+           "TrainerTemplate",
+           "ConfigTemplate"]
 
-from .model_template import ModelTemplate
 from .data_loader_template import DataLoaderTemplate
+from .model_template import ModelTemplate
 from .trainer_template import TrainerTemplate
+from .config_template import ConfigTemplate

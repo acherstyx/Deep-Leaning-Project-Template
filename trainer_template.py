@@ -7,7 +7,8 @@ from datetime import datetime
 class TrainerTemplate:
     def __init__(self, model, data, config):
         """
-        init the trainer
+        Init the trainer
+
         :param model:
         :param data: data loader
         :param config: config you want to use
@@ -19,27 +20,37 @@ class TrainerTemplate:
         self.callbacks = []
         self.metrics = []
 
+        self.checkpoint = None
+
         # timestamp for log file
         self.timestamp = "{0:%Y-%m-%dT%H-%M-%SW}".format(datetime.now())
-        self.checkpoint = None
 
     def train(self, *args):
         """
-        train your model here
+        Define how to train your model.
         """
         raise NotImplementedError
 
-    def save(self, path: str, *args):
+    def save(self, path: str, args: object) -> None:
+        """
+        Save the weights of model.
+
+        :param path:
+        :param args:
+        """
         self.model: tf.keras.Model
         try:
             self.model.save_weights(path)
-        except OSError:
-            os.makedirs(os.path.join(*os.path.split(path)[:-1]))    # directory not exist
+        except OSError:  # if directory not exist
+            os.makedirs(os.path.join(*os.path.split(path)[:-1]))
             self.model.save_weights(path)
 
-    def load(self, path, *args):
+    def load(self, path: str, args: object) -> None:
+        """
+        Load weights.
+
+        :param path:
+        :param args:
+        """
         self.model: tf.keras.Model
         self.model.load_weights(path)
-
-    def predict(self, *args):
-        pass

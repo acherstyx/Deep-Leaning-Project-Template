@@ -1,10 +1,12 @@
+import os
 import tensorflow as tf
 
 
 class ModelTemplate:
     def __init__(self, config, *args):
         """
-        init the models
+        init the models. self.build() will be called automatically to build the deep learning model.
+
         :param config: configs you want to use in `build` method
         """
         self.config = config
@@ -12,55 +14,34 @@ class ModelTemplate:
 
         self.build(args)
 
-    def load(self, checkpoint_path, *args):
-        """
-        load models from file
-        :param checkpoint_path: the path to the checkpoint file
-        :return: None
-        """
-        if self.model is None:
-            raise Exception("[Error] Build the models first.")
-
-        self.model.load_weights(checkpoint_path)
-        print("[Info] Model loaded.")
-
-    def save(self, checkpoint_path, *args):
-        """
-        save models to file
-        :param checkpoint_path: the path to the checkpoint file
-        :return:
-        """
-        if self.model is None:
-            raise Exception("[Error] Build the models first.")
-
-        self.model.save_weights(checkpoint_path)
-        print("[Info] Model saved.")
-
     def build(self, *args):
         """
-        build the models here
+        build the deep learning models here.
         """
         raise NotImplementedError
 
     def get_model(self, *args) -> tf.keras.Model:
         """
         return self.model
+
         :return:
         """
         if self.model is None:
-            raise Exception("[Error] Build the models first.")
+            raise Exception("Error: Build the models first.")
 
         return self.model
 
     def show_summary(self, with_plot=False, with_text=True, dpi=100, *args):
         """
         show the summary of self.model
+
+        :param with_text: show the text brief
         :param with_plot: show model in image
         :param dpi: dpi of chart
         :return: self
         """
         if self.model is None:
-            raise Exception("[Error] Build the models first.")
+            raise Exception("Error: Build the models first.")
 
         if with_text:
             self.model.summary()
@@ -70,3 +51,27 @@ class ModelTemplate:
                                       show_shapes=True,
                                       dpi=dpi)
         return self
+
+    def save(self, path: str, args: object) -> None:
+        """
+        Save the weights of model.
+
+        :param path:
+        :param args:
+        """
+        self.model: tf.keras.Model
+        try:
+            self.model.save_weights(path)
+        except OSError:  # if directory not exist
+            os.makedirs(os.path.join(*os.path.split(path)[:-1]))
+            self.model.save_weights(path)
+
+    def load(self, path: str, args: object) -> None:
+        """
+        Load weights.
+
+        :param path:
+        :param args:
+        """
+        self.model: tf.keras.Model
+        self.model.load_weights(path)

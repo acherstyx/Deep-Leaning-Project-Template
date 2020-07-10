@@ -3,19 +3,26 @@ import pickle
 
 
 class DataLoaderTemplate:
+    """
+    >> Data Loader Template <<
+
+    Generate a `tf.data.Dataset` object as dataset, and save it to `self.dataset`.
+    """
+
     def __init__(self, config):
         """
-        init the data loader
-        :param config: configs you want to use in `load` method
+        Init the data loader.
+        :param config: configs
         """
         self.config = config
-        self.dataset = None
-        # the data will be load automatically
+
+        # the data will be load automatically by calling self.load()
+        self.dataset = None  # take position
         self.load()
 
     def load(self):
         """
-        load data here
+        Load data.
         """
         raise NotImplementedError
 
@@ -25,7 +32,7 @@ class DataLoaderTemplate:
         :return: dataset
         """
         if self.dataset is None:
-            raise Exception("[Error] Load data first.")
+            raise Exception("Error: Load data first, and save it to `self.dataset`")
 
         return self.dataset
 
