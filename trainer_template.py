@@ -31,7 +31,7 @@ class TrainerTemplate:
         """
         raise NotImplementedError
 
-    def save(self, path: str, args: object) -> None:
+    def save(self, path: str, *args) -> None:
         """
         Save the weights of model.
 
@@ -45,7 +45,7 @@ class TrainerTemplate:
             os.makedirs(os.path.join(*os.path.split(path)[:-1]))
             self.model.save_weights(path)
 
-    def load(self, path: str, args: object) -> None:
+    def load(self, path: str, *args) -> None:
         """
         Load weights.
 
