@@ -1,18 +1,19 @@
 import os
 import tensorflow as tf
+from .utils import mkdir
 
 
 class ModelTemplate:
-    def __init__(self, config, *args):
-        """
-        init the models. self.build() will be called automatically to build the deep learning model.
+    def __init__(self, config):
+        """>> Model Template <<
+        Build tf.keras.Model, self.build() will be called automatically to build the deep learning model.
 
         :param config: configs you want to use in `build` method
         """
         self.config = config
         self.model = None
 
-        self.build(args)
+        self.build()
 
     def build(self, *args):
         """
@@ -63,7 +64,7 @@ class ModelTemplate:
         try:
             self.model.save_weights(path)
         except OSError:  # if directory not exist
-            os.makedirs(os.path.join(*os.path.split(path)[:-1]))
+            mkdir(path)
             self.model.save_weights(path)
 
     def load(self, path: str, args: object) -> None:

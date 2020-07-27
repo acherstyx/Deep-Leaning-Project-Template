@@ -6,8 +6,8 @@ from datetime import datetime
 
 class TrainerTemplate:
     def __init__(self, model, data, config):
-        """
-        Init the trainer
+        """>> Trainer Template <<
+        Init the trainer. Use trainer to organize dataset and model, control training process.
 
         :param model:
         :param data: data loader

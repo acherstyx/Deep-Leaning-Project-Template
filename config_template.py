@@ -1,4 +1,5 @@
 import json
+from .utils import mkdir
 
 
 class ConfigTemplate:
@@ -21,8 +22,14 @@ class ConfigTemplate:
         :return:
         """
         if json_file is not None:
-            with open(json_file, "w") as f:
-                json.dump(self.__dict__, f)
+            try:
+                with open(json_file, "w") as f:
+                    json.dump(self.__dict__, f)
+            except FileNotFoundError:
+                mkdir(json_file)
+                with open(json_file, "w") as f:
+                    json.dump(self.__dict__, f)
+
         return json.dumps(self.__dict__)
 
     @staticmethod
