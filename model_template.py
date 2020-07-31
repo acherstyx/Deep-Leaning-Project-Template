@@ -67,7 +67,7 @@ class ModelTemplate:
             mkdir(path)
             self.model.save_weights(path)
 
-    def load(self, path: str, args: object) -> None:
+    def load(self, path: str, *args: object) -> None:
         """
         Load weights.
 
