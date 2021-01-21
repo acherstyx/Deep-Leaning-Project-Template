@@ -1,16 +1,14 @@
-import os
 import tensorflow as tf
 from .utils import mkdir
 
 
 class ModelTemplate:
-    def __init__(self, config):
+    def __init__(self, **kwargs):
         """>> Model Template <<
         Build tf.keras.Model, self.build() will be called automatically to build the deep learning model.
 
         :param config: configs you want to use in `build` method
         """
-        self.config = config
         self.model = None
 
         self.build()
@@ -32,7 +30,17 @@ class ModelTemplate:
 
         return self.model
 
-    def show_summary(self, with_plot=False, with_text=True, dpi=100, *args):
+    @staticmethod
+    def _show_summary(model, model_name, with_plot=False, with_text=True, dpi=100):
+        if with_text:
+            model.summary()
+        if with_plot:
+            tf.keras.utils.plot_model(model,
+                                      to_file=model_name + ".png",
+                                      show_shapes=True,
+                                      dpi=dpi)
+
+    def show_summary(self, with_plot=False, with_text=True, dpi=100, **kwargs):
         """
         show the summary of self.model
 
@@ -44,13 +52,12 @@ class ModelTemplate:
         if self.model is None:
             raise Exception("Error: Build the models first.")
 
-        if with_text:
-            self.model.summary()
-        if with_plot:
-            tf.keras.utils.plot_model(self.model,
-                                      to_file=self.__class__.__name__ + ".png",
-                                      show_shapes=True,
-                                      dpi=dpi)
+        self._show_summary(model=self.model,
+                           model_name=self.__class__.__name__,
+                           with_text=with_text,
+                           with_plot=with_plot,
+                           dpi=dpi)
+
         return self
 
     def save(self, path: str, args: object) -> None:

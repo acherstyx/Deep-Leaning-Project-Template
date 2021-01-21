@@ -1,3 +1,5 @@
+__package__ = "templates"
+
 import tensorflow as tf
 
 from .preprocessing_template import PreprocessorTemplate
@@ -9,15 +11,12 @@ class DataLoaderTemplate(PreprocessorTemplate):
     Generate a `tf.data.Dataset` object as dataset, and save it to `self.dataset`.
     """
 
-    def __init__(self, config):
+    def __init__(self, **kwargs):
         """
         Init the data loader.
 
         :param config: configs
         """
-        super(DataLoaderTemplate, self).__init__(config)
-
-        self.config = config
 
         # the data will be load automatically by calling self.load()
         self.dataset = None  # take position

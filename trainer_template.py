@@ -31,26 +31,28 @@ class TrainerTemplate:
         """
         raise NotImplementedError
 
-    def save(self, path: str, *args) -> None:
+    @staticmethod
+    def save(model, path: str) -> None:
         """
         Save the weights of model.
 
+        :param model:
         :param path:
-        :param args:
         """
-        self.model: tf.keras.Model
+        model: tf.keras.Model
         try:
-            self.model.save_weights(path)
+            model.save_weights(path)
         except OSError:  # if directory not exist
             os.makedirs(os.path.join(*os.path.split(path)[:-1]))
-            self.model.save_weights(path)
+            model.save_weights(path)
 
-    def load(self, path: str, *args) -> None:
+    @staticmethod
+    def load(model, path: str) -> None:
         """
         Load weights.
 
+        :param model:
         :param path:
-        :param args:
         """
-        self.model: tf.keras.Model
-        self.model.load_weights(path)
+        model: tf.keras.Model
+        model.load_weights(path)

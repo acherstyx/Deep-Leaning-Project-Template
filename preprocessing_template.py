@@ -2,14 +2,6 @@ from .utils import cache_save, cache_load, cache_try_load
 
 
 class PreprocessorTemplate:
-    def __init__(self, config):
-        """>> Preprocessor Template <<
-        Do preprocess for building dataset
-
-        :param config:
-        """
-        self.config = config
-
     @staticmethod
     def cache_save(variable, cache_file):
         """
